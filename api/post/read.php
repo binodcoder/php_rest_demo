@@ -4,7 +4,7 @@ header('Acess-Control-Allow-Origin:*');
 header('Content-Type:application/json');
 
 include_once '../../config/Database.php';
-include_once '../../config/Post.php';
+include_once '../../models/Post.php';
 
 // Instantiate DB & connect
 
@@ -23,7 +23,7 @@ $num=$result->rowCount();
 if($num>0){
 //Post array
 $posts_arr=array();
-$posts_arr['data']=array();
+//$posts_arr['data']=array();
 while($row=$result->fetch(PDO::FETCH_ASSOC)){
     extract($row);
     $post_item=array(
@@ -35,16 +35,17 @@ while($row=$result->fetch(PDO::FETCH_ASSOC)){
         'category_name'=>$category_name
     );
     //Push to  "data"
-    array_push($posts_arr['data'], $post_item);
+    array_push($posts_arr, $post_item);
 
 }
 
 //Turn to JSON & output
-echo json_encode($post_arr);
+echo json_encode($posts_arr);
 }else{
     //No posts
     echo json_encode(
         array('message'=>'No Posts Fount')
     );
+    
 
 }
